@@ -20,6 +20,11 @@ cello_bass = {\tag #'cello {\clef "bass"}}
 cello_tenor = {\tag #'cello {\clef "tenor"}}
 cello_treble = {\tag #'cello {\clef "treble"}}
 
+og_break = {}%\break}
+og_nobreak = {}%\noBreak}
+og_pagebreak = {}%\pageBreak}
+my_pagebreak = {\pageBreak}
+
 global = {
   \compressFullBarRests
   \accidentalStyle modern-cautionary
@@ -123,7 +128,7 @@ violin = \relative c' {
   <a' ef'>8->-. q-. q4-. <d, a'>-. |
   
   % PAGE 1 LINE 3
-  \break
+  \og_break
   <a' ef'>4-. <d, a'>-. <a' ef'>4-. |
   <d, a'>-. <a' ef'>4-. <d, a'>-. |
   r4 g,8-.\p bf-. g-. a-. |
@@ -133,7 +138,7 @@ violin = \relative c' {
   af4-- af8-. c-. af-. bf-. |
   
   % PAGE 1 LINE 4
-  \break
+  \og_break
   c4-- bf8-. c-. af-. c-. |
   bf( af) af-. c-. af-. bf-. |
   c4-! af8-. c-. bf-. af-. |
@@ -143,7 +148,7 @@ violin = \relative c' {
   r <d' bf'>-. g,-. |
 
   % PAGE 1 LINE 5
-  \break
+  \og_break
   r <ef' c'>-. af,-. |
   r q-. af-. |
   r q-. af-. |
@@ -157,7 +162,7 @@ violin = \relative c' {
   
   
   % PAGE 1 LINE 6
-  \break
+  \og_break
   fs4 e d |
   e2 e4 |
   fs r d |
@@ -171,7 +176,7 @@ violin = \relative c' {
   d r r |
   
   % PAGE 1 LINE 7
-  \break
+  \og_break
   \stemDown
   <d a' fs'>4^"pizz" r r |
   q r r |
@@ -184,7 +189,7 @@ violin = \relative c' {
   d4 r r |
   
   % PAGE 1 LINE 8
-  \break
+  \og_break
   \stemDown
   <d a' fs'>4^"pizz" r r |
   q r r |
@@ -197,7 +202,7 @@ violin = \relative c' {
   d4 <d a'>8\ff q q q |
   
   % PAGE 1 LINE 9
-  \break
+  \og_break
   <a' ef'>4 <d, a'>8 q q q |
   <a' ef'>4 <d, a'> <a' ef'> |
   <d, a'> <a' ef'> <d, a'> |
@@ -206,7 +211,7 @@ violin = \relative c' {
   r4 <af, ef' c' af'>4 <c' af'> |
   
   % PAGE 1 LINE 10
-  \break
+  \og_break
   \repeat unfold 3 { r4 <af, ef' c' af'>4 <c' af'> | }
   <g, d' bf' g'> g''8\ff bf g a |
   bf4 a8 bf g bf |
@@ -221,7 +226,7 @@ violin = \relative c' {
   g4 r \cello_bass d, |
   
   % PAGE 2 LINE 1
-  \pageBreak
+  \og_pagebreak
   \descending_with_low_g
   <g, d'>4 e' g |
   fs e d |
@@ -233,14 +238,18 @@ violin = \relative c' {
   <g, d'>4 g' bf |
   a fs d |
   <a fs'>2 <a e'>4 |
+  \allowPageTurn
   d4 r r |
+  \allowPageTurn
   
   %\repeat unfold 2
   {
     \cello_tenor
     < d a' fs'>4^"pizz"\mf r r |
+    \allowPageTurn
     \repeat unfold 2 {
       <d a' fs'>4 r r |
+      \allowPageTurn
     }
     r g'8^"con legno" bf g a |
     bf4 ef,8 g ef f |
@@ -276,7 +285,7 @@ violin = \relative c' {
   r8 <d a' fs'>4\ff |
   
   % PAGE 2 LINE 5
-  \break
+  \og_break
   \barNumberCheck #137
   <g, d' bf' g'>4 r r |
   R1*3/4*6 |
@@ -288,7 +297,7 @@ violin = \relative c' {
   a8[ a] b[ b] d[ d] |
   
   % PAGE 2 LINE 6
-  \break
+  \og_break
   c[ c] b[ b] a[ a] |
   c c a'4 c, |
   bf?8 a g a bf c |
@@ -298,7 +307,7 @@ violin = \relative c' {
   bf4 r8 a g bf |
   
   % PAGE 2 LINE 7
-  \break
+  \og_break
   d4 r8 bf g d' |
   cs16->( d cs d cs8) r8 a'4 |
   <d, d'>2-> q4 |
@@ -309,7 +318,7 @@ violin = \relative c' {
   <c c'> <b b'> <g g'> |
   
   % PAGE 2 LINE 8
-  \break
+  \og_break
   <c c'>2 c4 |
   bf8-.\p d-. g-. a-. bf-. c-. |
   d cs d f e d |
@@ -319,7 +328,7 @@ violin = \relative c' {
   f\cresc d cs c b bf |
   
   % PAGE 2 LINE 9-11
-  \break
+  \og_break
   a b cs d e f |
   <a, a'>8(\f\< <a b'> <a c'> <a cs'> <a d'> <a ds'>)
   \bar "||" \key d \minor
@@ -327,12 +336,16 @@ violin = \relative c' {
   <e' e'>4
      \cello_bass
      \tuplet 3/2 { e,8\p^\markup{\italic "scherzando"}( f e) } e4-. |
+  \my_pagebreak
+  \override Staff.MeasureCounter.count-from = #2
+  \startMeasureCount
   r4 \tuplet 3/2 { e8( f e) } e4-. |
   \temporary\omit TupletNumber
   \repeat unfold 14 {
     r4 \tuplet 3/2 { e8( f e) } e4-. |
   }
   \undo\omit TupletNumber
+  \stopMeasureCount
   
   \set crescendoText = \markup {\italic {poco a poco cresc.}}
   \set crescendoSpanner = #'text
@@ -350,7 +363,7 @@ violin = \relative c' {
   % TODO: poc a poco cresc
   
   % PAGE 3 LINE 1
-  \pageBreak
+  \og_pagebreak
   d4 r f |
   f r g |
   g e d |
@@ -362,7 +375,7 @@ violin = \relative c' {
   e r g |
   
   % PAGE 3 LINE 2
-  \break
+  \og_break
   g r a |
   g f e |
   g\f r
@@ -380,7 +393,7 @@ violin = \relative c' {
   a g fs |
   
   % PAGE 3 LINE 3
-  \break
+  \og_break
   g2) g4( |
   b2.)\!~ |
   b2.~ |
@@ -394,7 +407,7 @@ violin = \relative c' {
   e fs a |
   
   % PAGE 3 LINE 4
-  \break
+  \og_break
   g fs e |
   g2) g4( |
   fs2.)\!~ |
@@ -408,7 +421,7 @@ violin = \relative c' {
   \tuplet 3/2 4 {b8\cresc( c cs d ds e es fs g} |
   
   % PAGE 3 LINE 5
-  \break
+  \og_break
   \temporary\omit TupletNumber
   \tuplet 3/2 4 {gs a as b c cs d ds e) } |
   \tuplet 3/2 4 {es( fs g gs a as b\sf as a} |
@@ -417,7 +430,7 @@ violin = \relative c' {
   \tuplet 3/2 4 {d cs c b\sf c cs d ds e) } |
   
   % PAGE 3 LINE 6
-  \break
+  \og_break
   \tuplet 3/2 4 {es\dim( fs g gs a as b bs cs } |
   \tuplet 3/2 4 {d ds e es fs g gs a as } |
   \undo\omit TupletNumber
@@ -426,20 +439,20 @@ violin = \relative c' {
   r4 ds'8 fs ds es |
   
   % PAGE 3 LINE 7
-  \break
-  fs\sf[ fs] es[ es] ds4 |                  \noBreak
+  \og_break
+  fs\sf[ fs] es[ es] ds4 |                  \og_nobreak
   r
     \cello_treble
-    c'8\cresc ef c d |                      \noBreak
-  ef\sf[ ef] d[ d] c4 |                     \noBreak
+    c'8\cresc ef c d |                      \og_nobreak
+  ef\sf[ ef] d[ d] c4 |                     \og_nobreak
   r \cello_bass
-    c,,8 ef c d |                           \noBreak
-  ef\sf[ ef] d[ d] c4 |                     \noBreak
+    c,,8 ef c d |                           \og_nobreak
+  ef\sf[ ef] d[ d] c4 |                     \og_nobreak
   \bar "||" \key g \minor
   \tuplet 3/2 4 { g8( ef' c') g'( c, ef,} g,4~ |
   
   % PAGE 3 LINE 8
-  \break
+  \og_break
   \temporary\omit TupletNumber
   \obnoxious_arpeggio_tied
   \obnoxious_arpeggio_sharptwo_tied
@@ -451,7 +464,7 @@ violin = \relative c' {
   }
   
   % PAGE 3 LINE 9
-  \break
+  \og_break
   \transpose g a {
     \obnoxious_arpeggio_untied
   }
@@ -469,7 +482,7 @@ violin = \relative c' {
   }
   
   % PAGE 3 LINE 10
-  \break
+  \og_break
   \repeat unfold 2 {
     \transpose g ef' \obnoxious_arpeggio_untied
     \transpose g d'   \obnoxious_arpeggio_untied
@@ -480,17 +493,17 @@ violin = \relative c' {
   }
   
   % PAGE 3 LINE 11 [last measure first on p4]
-  \break
+  \og_break
   \tuplet 3/2 4 { ef'8 bf' g') ef'( g, bf,} ef,4) |
   \undo\omit TupletNumber
   {
     <<
       { R1*3/4 | }
-      {s2 s4\ff }
+      {s2 s4 }
     >>
     \cello_bass
     <<
-      { d2 d4 } % TODO: only first repeat
+      { d2\ff d4 }
       \\
       { d2 d4 }
     >>
@@ -505,7 +518,7 @@ violin = \relative c' {
   }
   
   % PAGE 4 LINE 1 [first measure prev. block; also has L2 M1-2]
-  \pageBreak
+  \og_pagebreak
   a'2 a4 |
   g2\dim g4 |
   f2 f4 |
@@ -520,8 +533,9 @@ violin = \relative c' {
   }
 
   % PAGE 4 LINE 2
-  \repeat unfold 3 {
-    d4 a8^\markup{\italic "stacc."} a a a |
+  d4 a8^\markup{\italic "stacc."} a a a |
+  \repeat unfold 2 {
+    d4 a8 a a a |
   }
   d4 a d |
   r g8 bf g a |
@@ -529,7 +543,7 @@ violin = \relative c' {
   g4 bf,8 ef bf d |
   
   % PAGE 4 LINE 3
-  \break
+  \og_break
   ef4-- ef8 ef ef ef |
   \repeat unfold 3 {
     d4 a8 a a a |
@@ -539,7 +553,7 @@ violin = \relative c' {
   bf4 ef,8 g ef f |
   
   % PAGE 4 LINE 4
-  \break
+  \og_break
   g4 bf,8 ef bf d |
   ef4-- ef,8 ef ef ef |
   d4 r <d a'>-.\f |
@@ -548,7 +562,7 @@ violin = \relative c' {
   <a' ef'>4-. <d, a'>-. r |
   
   % PAGE 4 LINE 5
-  \break
+  \og_break
   r r df4\mf |
   df8-> df df4 df |
   df8 df df df df df |
@@ -558,9 +572,10 @@ violin = \relative c' {
   r r bf |
   
   % PAGE 4 LINE 6
-  \break
+  \og_break
   bf8-> bf bf4 <bf g'>-.\p |
   <a fs'>-. r r |
+  \my_pagebreak
   R1*3/4*1 |
   r4 r d'(^\markup{\italic "expressivo"} |
   f e d |
@@ -570,7 +585,7 @@ violin = \relative c' {
   ef? d c |
   
   % PAGE 4 LINE 7
-  \break
+  \og_break
   d2. |
   g,) |
   r4 r g4( |
@@ -603,7 +618,7 @@ violin = \relative c' {
   }
   
   % PAGE 4 LINE 10
-  \break
+  \og_break
   ef\f-. c-. ef-. d-. c-. bf-. |
   c af a fs a g |
   fs c ef d c a |
@@ -613,7 +628,7 @@ violin = \relative c' {
   r c( ef^\sf d c a) |
   
   % PAGE 4 LINE 11
-  \break
+  \og_break
   \repeat unfold 2 {
     r c( ef^\sf d c a) |
   }
@@ -635,7 +650,7 @@ violin = \relative c' {
   a8-. bf-. c-. d-. e-. fs-. |
   
   % PAGE 4 LINE 12 and PAGE 5 LINES 1 and 2
-  \break
+  \og_break
   g4-.\ff % MEASURE CONTINUED IN REPEAT
   \repeat unfold 2 {
     \cello_treble
@@ -659,7 +674,7 @@ violin = \relative c' {
   cs4 d2:8 |
   
   % PAGE 5 LINE 3
-  \break
+  \og_break
   cs4 <d d'>2:8 |
   \repeat unfold 3 {
     <d a' fs'>4 <d d'>2:8 |
@@ -673,7 +688,7 @@ violin = \relative c' {
   \graced_descending_run |
   
   % PAGE 5 LINE 6
-  \break
+  \og_break
   {
     fs, a d fs a d |
     bf^\markup{\italic "stringendo"} g d bf g d |
@@ -686,7 +701,7 @@ violin = \relative c' {
   d,, fs a d fs a |
   
   % PAGE 5 LINE 7
-  \break
+  \og_break
   a, d fs a
     \cello_treble
     d fs |
@@ -699,7 +714,7 @@ violin = \relative c' {
   <d,, a' g'> f' ef |
   
   % PAGE 5 LINE 8
-  \break
+  \og_break
   f ef d |
   ef d c |
   af8 c af bf c4 |
@@ -710,7 +725,7 @@ violin = \relative c' {
   }
   
   % PAGE 5 LINE 9
-  \break
+  \og_break
   g,4( <d' bf' g'>) r |
   \repeat unfold 2 {
     <g, d'>4( <d' bf' g'>) r |
@@ -730,7 +745,7 @@ violin = \relative c' {
   ef''4-._"(du talon.)" r8 bf'-. bf4-. |
   
   % PAGE 5 LINE 10
-  \break
+  \og_break
   ef,4-.
     g2->
       _\markup{\italic "dim."}
@@ -749,7 +764,7 @@ violin = \relative c' {
   ef2.~|
   
   % PAGE 5 LINE 11
-  \break
+  \og_break
   ef4 r r |
   r r ef(\dim |
   af,) bf c |
@@ -760,7 +775,7 @@ violin = \relative c' {
   \repeat tremolo 6 { d ef }
   
   % PAGE 5 LINE 12
-  \break
+  \og_break
   \repeat tremolo 6 { d ef }
   \repeat tremolo 6 { d ef }
   \repeat tremolo 6 { d\dim ef }
@@ -776,15 +791,24 @@ violin = \relative c' {
   \new Staff \with {
     instrumentName = ""
     midiInstrument = "violin"
+    \consists "Page_turn_engraver"
   } {\transpose c c, \violin}
-  \layout { }
+  \layout {
+    \context {
+      \Staff
+      \consists #Measure_counter_engraver
+    }
+  }
   \midi {
     \tempo 4=170
   }
 }
 
 \paper { 
+  #(set-paper-size "letter")
   ragged-last-bottom = ##f 
+  %page-breaking = #ly:page-turn-breaking
+  page-count = #6
 }
 
 
