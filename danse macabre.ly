@@ -16,6 +16,10 @@
 
 sempreFF = \markup { \italic "sempre" \dynamic ff }
 
+cello_bass = {\tag #'cello {\clef "bass"}}
+cello_tenor = {\tag #'cello {\clef "tenor"}}
+cello_treble = {\tag #'cello {\clef "treble"}}
+
 global = {
   \compressFullBarRests
   \accidentalStyle modern-cautionary
@@ -30,6 +34,8 @@ global = {
   \key g \minor
   \time 3/4
   \tempo "Mouv modéré de valse"
+   
+  \cello_bass
 }
 
 descending_with_low_g = \relative c' {
@@ -84,31 +90,32 @@ violin = \relative c' {
   % Music follows here.
   <<
     {
-      d4\p^"pizz" b'\rest b\rest |
+      d4\p^"pizz" g\rest g\rest |
       \repeat unfold 11 {
-        d, b'\rest b\rest |
+        d g\rest g\rest |
       }
     }
    \\
     \new Voice="arco" { \voiceTwo
       \repeat unfold 11 {
-          d,2.~ |
+          d2.~ |
       }
       d2. |
     }
   >>
   R1*3/4*10 |
-  
   <<
     s1*3/4 | s |
    \\
     \new CueVoice {
-      \cueClef "bass"
-      c,4 r r | ef r r |
+      %\cueClef "bass"
+      c4 r r | ef r r |   % VIOLIN: removed ,
     }
   >>
-  \cueClefUnset
-  <a' ef'>2.->\f |
+  %\cueClefUnset
+  \set fingeringOrientations = #'(left)
+  <a-\tweak Fingering.extra-offset #'(0 . 0.5) -0 
+    ef'-2>2.->\f |  % VIOLIN: added ,
   <d, a'>-> |
   <a' ef'>2-> q4 |
   <d, a'>2-> q4 |
@@ -194,6 +201,7 @@ violin = \relative c' {
   <a' ef'>4 <d, a'>8 q q q |
   <a' ef'>4 <d, a'> <a' ef'> |
   <d, a'> <a' ef'> <d, a'> |
+  \cello_tenor
   \repeat unfold 4 { r4 <g, d' bf' g'> <bf' g'> | }
   r4 <af, ef' c' af'>4 <c' af'> |
   
@@ -210,7 +218,7 @@ violin = \relative c' {
   c4 bf8 c af c |
   bf8(\prall[ af)] af c af bf |
   c4-! af8 c bf af |
-  g4 r d, |
+  g4 r \cello_bass d, |
   
   % PAGE 2 LINE 1
   \pageBreak
@@ -229,6 +237,7 @@ violin = \relative c' {
   
   %\repeat unfold 2
   {
+    \cello_tenor
     < d a' fs'>4^"pizz"\mf r r |
     \repeat unfold 2 {
       <d a' fs'>4 r r |
@@ -240,7 +249,7 @@ violin = \relative c' {
     d4 r r |
   }
   {
-    < d a' fs'>4^"pizz"\mf r r |
+    < d, a' fs'>4^"pizz" r r |
     \repeat unfold 2 {
       <d a' fs'>4 r r |
     }
@@ -248,11 +257,15 @@ violin = \relative c' {
     bf4 ef,8 g ef f |
     g4 bf,8 ef bf d |
     ef4 ef8 ef ef ef |
-    d4 r r\f |
+    d4 r r-\tweak DynamicText.extra-offset #'(3 . 0)\f |
   }
   % LINE 4 last 3 measures 
+  \cello_bass
   <<
-    { a,2.~^"arco" | a~ | a4~ a8 }
+    { a2.~
+        -\tweak TextScript.extra-offset #'(-4 . -2) ^"arco" 
+        |
+      a~ | a4~ a8 }
     \\
     {
       d,16([ ef \repeat unfold 4 { d ef } d ef] |
@@ -267,7 +280,7 @@ violin = \relative c' {
   \barNumberCheck #137
   <g, d' bf' g'>4 r r |
   R1*3/4*6 |
-  r4 r\mf g | 
+  r4 r g\mf | 
   d'8-> d d4 d |
   c8-> c c4 c |
   b8-> b b4 b |
@@ -300,6 +313,7 @@ violin = \relative c' {
   <c c'>2 c4 |
   bf8-.\p d-. g-. a-. bf-. c-. |
   d cs d f e d |
+  \cello_tenor
   g fs g bf a g |
   c b bf a g fs |
   f\cresc d cs c b bf |
@@ -310,7 +324,9 @@ violin = \relative c' {
   <a, a'>8(\f\< <a b'> <a c'> <a cs'> <a d'> <a ds'>)
   \bar "||" \key d \minor
   \barNumberCheck #173
-  <e' e'>4 \tuplet 3/2 { e,8\p^\markup{\italic "scherzando"}( f e) } e4-. |
+  <e' e'>4
+     \cello_bass
+     \tuplet 3/2 { e,8\p^\markup{\italic "scherzando"}( f e) } e4-. |
   r4 \tuplet 3/2 { e8( f e) } e4-. |
   \temporary\omit TupletNumber
   \repeat unfold 14 {
@@ -318,10 +334,16 @@ violin = \relative c' {
   }
   \undo\omit TupletNumber
   
-  \once \set crescendoText = \markup {\italic {poco a poco cresc.}}
+  \set crescendoText = \markup {\italic {poco a poco cresc.}}
+  \set crescendoSpanner = #'text
   \temporary \override DynamicTextSpanner.style = #'dashed-line
   
-  r4 r f'^"pizz"^\markup{\italic "marcato"}\cresc |
+  r4 r 
+    \cello_tenor
+    f'^"pizz"
+      ^\markup{\italic "marcato"}
+      \cresc
+    |
   e r f |
   d r e |
   cs r d |
@@ -343,8 +365,11 @@ violin = \relative c' {
   \break
   g r a |
   g f e |
-  g\f r as,,(^"arco"
+  g\f r
+    \cello_bass
+    as,,(^"arco"
   \revert DynamicTextSpanner.style
+  \set crescendoText = \markup{\italic{cresc.}}
   \bar "||" \key b \minor
   b) r fs'(\p^\markup{\italic "molto expressivo"}\< |
   b2) b4( |
@@ -403,15 +428,19 @@ violin = \relative c' {
   % PAGE 3 LINE 7
   \break
   fs\sf[ fs] es[ es] ds4 |                  \noBreak
-  r c'8\cresc ef c d |                      \noBreak
+  r
+    \cello_treble
+    c'8\cresc ef c d |                      \noBreak
   ef\sf[ ef] d[ d] c4 |                     \noBreak
-  r c,,8 ef c d |                           \noBreak
+  r \cello_bass
+    c,,8 ef c d |                           \noBreak
   ef\sf[ ef] d[ d] c4 |                     \noBreak
   \bar "||" \key g \minor
   \tuplet 3/2 4 { g8( ef' c') g'( c, ef,} g,4~ |
   
   % PAGE 3 LINE 8
   \break
+  \temporary\omit TupletNumber
   \obnoxious_arpeggio_tied
   \obnoxious_arpeggio_sharptwo_tied
   \obnoxious_arpeggio_sharptwo_untied
@@ -430,6 +459,7 @@ violin = \relative c' {
     \obnoxious_arpeggio_tied  % TODO: untied?
     \obnoxious_arpeggio_untied
   }
+  \cello_tenor
   \transpose g c' {
     \obnoxious_arpeggio_tied
     \obnoxious_arpeggio_untied
@@ -452,11 +482,13 @@ violin = \relative c' {
   % PAGE 3 LINE 11 [last measure first on p4]
   \break
   \tuplet 3/2 4 { ef'8 bf' g') ef'( g, bf,} ef,4) |
+  \undo\omit TupletNumber
   {
     <<
       { R1*3/4 | }
       {s2 s4\ff }
     >>
+    \cello_bass
     <<
       { d2 d4 } % TODO: only first repeat
       \\
@@ -565,7 +597,7 @@ violin = \relative c' {
   }
   
   % PAGE 4 LINE 9 [M1-2 ^^]
-  r4 ef'8( g ef d) |
+  r4 \cello_treble ef'8( g ef d) |
   \repeat unfold 3 {
     ef(-> c ef d c bf) |
   }
@@ -575,6 +607,7 @@ violin = \relative c' {
   ef\f-. c-. ef-. d-. c-. bf-. |
   c af a fs a g |
   fs c ef d c a |
+  \cello_bass
   c bf a fs a g |
   fs c[( ef^\sf d c a)] |
   r c( ef^\sf d c a) |
@@ -598,12 +631,14 @@ violin = \relative c' {
     }
   >>
   %{beat 1 inside%} ds'8-. e-. fs-. g-.\! |
+  \cello_treble
   a8-. bf-. c-. d-. e-. fs-. |
   
   % PAGE 4 LINE 12 and PAGE 5 LINES 1 and 2
   \break
   g4-.\ff % MEASURE CONTINUED IN REPEAT
   \repeat unfold 2 {
+    \cello_treble
     %{ beat 1 external %}  <bf,, g'>8 <bf bf'> <bf g'> <bf a'> |
     \repeat unfold 2 {
       <bf bf'>4 <bf g'>8 <bf bf'> <bf g'> <bf a'> |
@@ -613,8 +648,8 @@ violin = \relative c' {
 
     % PAGE 5 LINE 1
     <a d'>4 <a e''>8 <a fs''> <a d'> <a fs''> |
-    <a a''>4 a,8 bf b cs |
-    d4  %{ BEATS 2 and 3 in first measure of repeat %}
+    <a a''>4 \cello_bass a,8 bf b cs |
+    d4 %{ BEATS 2 and 3 in first measure of repeat %}
   }
   
   % PAGE 5 LINE 2 [MEASURES 1-4 ABOVE]
@@ -629,7 +664,9 @@ violin = \relative c' {
   \repeat unfold 3 {
     <d a' fs'>4 <d d'>2:8 |
   }
-  <d bf' g'>4 d8\f^\markup{\italic "arioso."} g bf d |
+  <d bf' g'>4
+    \cello_tenor
+    d8\f^\markup{\italic "arioso."} g bf d |
   \graced_descending_run
   fs, a d fs a d |
   bf4 d,,8 g bf d |
@@ -650,12 +687,15 @@ violin = \relative c' {
   
   % PAGE 5 LINE 7
   \break
-  a, d fs a d fs |
+  a, d fs a
+    \cello_treble
+    d fs |
   g4\fff^"animato" f ef |
   f ef d |
   ef d c |
   af8 c af d c4 |
   fs,8 a fs g a4 |
+  \cello_bass
   <d,, a' g'> f' ef |
   
   % PAGE 5 LINE 8
@@ -681,9 +721,13 @@ violin = \relative c' {
   \bar "||"
   <<
     { R1*3/4*1 |}
-    { s2 s4\f }
+    { s2
+      s4
+        -\tweak DynamicText.extra-offset #'(4 . 0)\f
+        -\tweak TextScript.extra-offset #'(4 . 0)^"ad lib." }
   >>
-  ef''4-._"(du talon.)"^"ad lib." r8-. bf'-. bf4-. |
+  \cello_treble
+  ef''4-._"(du talon.)" r8 bf'-. bf4-. |
   
   % PAGE 5 LINE 10
   \break
@@ -691,10 +735,11 @@ violin = \relative c' {
     g2->
       _\markup{\italic "dim."}
       \fermata
-      ^\markup{\italic "long"}
+       -\tweak X-offset #3  ^\markup{\italic "long"}
     |
   R1*3/4*10
   r1*3/4\fermata |
+  \cello_bass
   d2.\f^\markup{\italic "quasi recitativo"}
   bf4 a g |
   g2.~ |
@@ -729,15 +774,18 @@ violin = \relative c' {
 
 \score {
   \new Staff \with {
-    instrumentName = "Violin"
+    instrumentName = ""
     midiInstrument = "violin"
-  } \violin
+  } {\transpose c c, \violin}
   \layout { }
   \midi {
     \tempo 4=170
   }
 }
 
+\paper { 
+  ragged-last-bottom = ##f 
+}
 
 
 
