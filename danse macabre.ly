@@ -35,6 +35,9 @@ global = {
   \override Score.Clef #'break-align-anchor-alignment = #LEFT
   \override MultiMeasureRest.expand-limit = #2
   \override DynamicTextSpanner.style = #'none
+  
+  \set Staff.printKeyCancellation = ##f
+  \set Score.markFormatter = #format-mark-box-barnumbers
 
   \key g \minor
   \time 3/4
@@ -103,6 +106,7 @@ violin = \relative c' {
   >>
   %\cueClefUnset
   \set fingeringOrientations = #'(left)
+  
   <a-\tweak Fingering.extra-offset #'(0 . 0.5) -0 
     ef'-2>2.->\f |  % VIOLIN: added ,
   <d, a'>-> |
@@ -431,12 +435,15 @@ violin = \relative c' {
   ef\sf[ ef] d[ d] c4 |                     \og_nobreak
   r \cello_bass
     c,,8 ef c d |                           \og_nobreak
-  ef\sf[ ef] d[ d]
-    \once \override Staff.NoteColumn #'X-extent = #'(1 . 2)
-    c4 |                     \og_nobreak
+  ef\sf[ ef] d[ d] c4 |                     \og_nobreak
   
   \bar "||" \key g \minor
   
+  \once \override Staff.Clef.before-line-breaking = 
+    #(lambda (grob)
+       (and (eq? LEFT (ly:item-break-dir grob))
+            (set! (ly:grob-property grob 'X-extent)
+                  '(-1 . 2))))
   \cello_tenor
   \my_pagebreak
 
