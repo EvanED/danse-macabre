@@ -1,19 +1,6 @@
 \version "2.19.80"
 \language "english"
 
-
-% Kuemer duet
-
-\header {
-  title = "DANSE MACABRE"
-  subtitle = "POËM SYMPHONIQUE"
-  composer = "C. SAINT-SAËNS"
-  poet = "Transcription for violin and piano"
-  piece = "par L‘AUTEUR"
-  opus = "Op. 40"
-  tagline = ##f
-}
-
 sempreFF = \markup { \italic "sempre" \dynamic ff }
 
 cello_bass = {\tag #'cello {\clef "bass"}}
@@ -771,33 +758,119 @@ violin = \relative c' {
   \bar "|."
 }
 
-\score {
-  \new Staff \with {
-    instrumentName = ""
-    midiInstrument = "violin"
-    \consists "Page_turn_engraver"
-  } {\transpose c c, \violin}
-  \layout {
-    \context {
-      \Staff
-      \consists #Measure_counter_engraver
+
+\book {
+  \paper { 
+    #(set-paper-size "letter")
+    ragged-last-bottom = ##f 
+    %page-breaking = #ly:page-turn-breaking
+    page-count = #7
+  }
+
+  \header {
+    tagline = ##f
+  }
+  \markup {
+    \column {
+      \right-column {
+        \vspace #2
+        
+        \fill-line{
+          \abs-fontsize #16
+          Violoncello
+          \abs-fontsize #32
+          \line{Camille Saint-Saëns}
+        }
+        \vspace #-0.5
+        \draw-hline
+        
+        \abs-fontsize #16
+        \line{1835 – 1921}
+      }
+      \left-column {
+        \vspace #3
+        \abs-fontsize #40
+        \line {Danse Macabre}
+        \vspace #0.6
+        \abs-fontsize #24
+        \line {Poëm Symphonique, opus 40 (1874)}
+        
+        \vspace #3
+        \abs-fontsize #16
+        \line {Arranged for violin and piano by the composer}
+        \vspace #0.4
+        \abs-fontsize #16
+        \line {Violin part transcribed down an octave for cello}
+        
+        \vspace #24
+        \abs-fontsize #12
+        \line {Notes from the transcriber:}
+        \vspace #0.5
+        \abs-fontsize #12
+        \justify {
+          On the violin, this piece is ideally played using
+          scordatura tuning with the \italic "E" tuned to
+          \italic "E♭"; measure \box \pad-markup #0.1 25 and
+          recurrences of that motif are then all open strings.
+          For cello, I suggest considering keeping the
+          \italic "A" open, as indicated in the part.
+          (\hspace #-0.5 \tiny\musicglyph #"two" to play the
+          \italic "D"\hspace #-0.8 -string \italic "E♭" is
+          personal preference.)
+        }
+        \vspace #0.5
+        \abs-fontsize #12
+        \justify {
+          Consider playing measures \box \pad-markup #0.1 33 –
+          \box \pad-markup #0.1 40 an octave above notated
+          (i.e., in their original octave).
+        }
+      }
     }
   }
-  \midi {
-    \tempo 4=170
+  \pageBreak
+  \markup {
+    \center-column {
+      \abs-fontsize #32
+      \line {Danse Macabre}
+      \vspace #0.3
+      \abs-fontsize #16
+      \line {Poëm Symphonique}
+      
+      \vspace #0.5
+      \abs-fontsize #14
+      \fill-with-pattern #1 #RIGHT #" " 
+         #"Transcription for cello and piano"
+         #"Camille Saint-Saëns, opus 40"
+         
+      \vspace #2
+    }
   }
-}
-
-\paper { 
-  #(set-paper-size "letter")
-  ragged-last-bottom = ##f 
-  %page-breaking = #ly:page-turn-breaking
-  page-count = #6
-}
-
-
-
-
+  \score {
+    \header {
+      title = "Danse Macabre"
+      subtitle = "Poëm Symphonique"
+      composer = "Camille Saint-Saëns"
+      poet = "Transcription for cello and piano"
+      %opus = "Op. 40"
+      %tagline = ##f
+    }
+    \new Staff \with {
+      instrumentName = ""
+      midiInstrument = "cello"
+      %\consists "Page_turn_engraver"
+    } {\transpose c c, \violin}
+    \layout {
+      \context {
+        \Staff
+        \consists #Measure_counter_engraver
+      }
+    }
+    \midi {
+      \tempo 4=170
+    }
+  }
+}  
 
 
 
